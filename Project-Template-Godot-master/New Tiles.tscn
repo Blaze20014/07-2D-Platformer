@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Tiles/ground.png" type="Texture" id=1]
+
+[node name="New Tiles" type="Node2D"]
+
+[node name="ground" type="Sprite" parent="."]
+position = Vector2( -3.05176e-05, 0 )
+scale = Vector2( 4.18421, 3.67857 )
+texture = ExtResource( 1 )
+centered = false

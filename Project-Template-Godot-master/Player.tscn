@@ -1,0 +1,123 @@
+[gd_scene load_steps=33 format=2]
+
+[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://png/Idle (2).png" type="Texture" id=2]
+[ext_resource path="res://png/Idle (4).png" type="Texture" id=3]
+[ext_resource path="res://png/Idle (10).png" type="Texture" id=4]
+[ext_resource path="res://png/Idle (5).png" type="Texture" id=5]
+[ext_resource path="res://png/Idle (3).png" type="Texture" id=6]
+[ext_resource path="res://png/Idle (1).png" type="Texture" id=7]
+[ext_resource path="res://png/Idle (6).png" type="Texture" id=8]
+[ext_resource path="res://png/Idle (7).png" type="Texture" id=9]
+[ext_resource path="res://png/Idle (9).png" type="Texture" id=10]
+[ext_resource path="res://png/Idle (8).png" type="Texture" id=11]
+[ext_resource path="res://png/Jump (1).png" type="Texture" id=12]
+[ext_resource path="res://png/Jump (2).png" type="Texture" id=13]
+[ext_resource path="res://png/Run (2).png" type="Texture" id=14]
+[ext_resource path="res://png/Jump (10).png" type="Texture" id=15]
+[ext_resource path="res://png/Run (6).png" type="Texture" id=16]
+[ext_resource path="res://png/Jump (3).png" type="Texture" id=17]
+[ext_resource path="res://png/Jump (5).png" type="Texture" id=18]
+[ext_resource path="res://png/Jump (6).png" type="Texture" id=19]
+[ext_resource path="res://png/Run (3).png" type="Texture" id=20]
+[ext_resource path="res://png/Run (4).png" type="Texture" id=21]
+[ext_resource path="res://png/Run (5).png" type="Texture" id=22]
+[ext_resource path="res://png/Jump (9).png" type="Texture" id=23]
+[ext_resource path="res://png/Jump (8).png" type="Texture" id=24]
+[ext_resource path="res://png/Run (8).png" type="Texture" id=25]
+[ext_resource path="res://png/Jump (7).png" type="Texture" id=26]
+[ext_resource path="res://png/Run (7).png" type="Texture" id=27]
+[ext_resource path="res://png/Jump (4).png" type="Texture" id=28]
+[ext_resource path="res://png/Run (1).png" type="Texture" id=29]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 2 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 14 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 16 ), ExtResource( 27 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "run",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 17 ), ExtResource( 28 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 26 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 15 ) ],
+"loop": false,
+"name": "jump",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 24, 48 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 32, 48 )
+
+[node name="Player" type="KinematicBody2D"]
+position = Vector2( 376, 288 )
+collision_mask = 9
+script = ExtResource( 1 )
+stomp_impluse = 300
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="anim_player" type="AnimatedSprite" parent="Body"]
+position = Vector2( 8, 3.00001 )
+scale = Vector2( 0.24337, 0.225092 )
+frames = SubResource( 1 )
+animation = "idle"
+frame = 7
+speed_scale = 4.0
+playing = true
+
+[node name="PhysicsShape" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 8 )
+shape = SubResource( 2 )
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="Raycasts"]
+position = Vector2( 16, 56 )
+enabled = true
+cast_to = Vector2( 0, 16 )
+collision_mask = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="RayCast2D2" type="RayCast2D" parent="Raycasts"]
+position = Vector2( 0, 56 )
+rotation = 6.28318
+enabled = true
+cast_to = Vector2( 0, 16 )
+collision_mask = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="RayCast2D3" type="RayCast2D" parent="Raycasts"]
+position = Vector2( -16, 56 )
+enabled = true
+cast_to = Vector2( 0, 16 )
+collision_mask = 2
+collide_with_areas = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+smoothing_speed = 2.0
+drag_margin_left = 0.0
+drag_margin_right = 0.0
+
+[node name="EnemyNotice" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyNotice"]
+position = Vector2( 0, 16 )
+shape = SubResource( 3 )
+[connection signal="area_entered" from="EnemyNotice" to="." method="_on_EnemyNotice_area_entered"]
+[connection signal="body_entered" from="EnemyNotice" to="." method="_on_EnemyNotice_body_entered"]
